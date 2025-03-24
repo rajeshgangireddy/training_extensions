@@ -1,0 +1,1230 @@
+{
+    "info": {},
+    "categories": {
+        "label": {
+            "label_groups": [
+                {
+                    "name": "___American_Crow",
+                    "group_type": "exclusive",
+                    "labels": [
+                        "American_Crow"
+                    ]
+                },
+                {
+                    "name": "___bird",
+                    "group_type": "exclusive",
+                    "labels": [
+                        "bird"
+                    ]
+                },
+                {
+                    "name": "___Acadian_Flycatcher",
+                    "group_type": "exclusive",
+                    "labels": [
+                        "Acadian_Flycatcher"
+                    ]
+                }
+            ],
+            "labels": [
+                {
+                    "name": "American_Crow",
+                    "parent": "",
+                    "attributes": []
+                },
+                {
+                    "name": "bird",
+                    "parent": "",
+                    "attributes": []
+                },
+                {
+                    "name": "Acadian_Flycatcher",
+                    "parent": "",
+                    "attributes": []
+                }
+            ],
+            "attributes": []
+        }
+    },
+    "items": [
+        {
+            "id": "American_Crow_0011_25151",
+            "annotations": [
+                {
+                    "id": 0,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 1,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0011_25151.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0099_25717",
+            "annotations": [
+                {
+                    "id": 2,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 3,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0099_25717.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0139_25186",
+            "annotations": [
+                {
+                    "id": 4,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 5,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0139_25186.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0137_25221",
+            "annotations": [
+                {
+                    "id": 6,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 7,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0137_25221.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0066_25827",
+            "annotations": [
+                {
+                    "id": 8,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 9,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0066_25827.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0027_25146",
+            "annotations": [
+                {
+                    "id": 10,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 11,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0027_25146.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0121_25720",
+            "annotations": [
+                {
+                    "id": 12,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 13,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0121_25720.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0050_25255",
+            "annotations": [
+                {
+                    "id": 14,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 15,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0050_25255.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0131_25706",
+            "annotations": [
+                {
+                    "id": 16,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 17,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0131_25706.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0030_25092",
+            "annotations": [
+                {
+                    "id": 18,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 19,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0030_25092.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0031_25433",
+            "annotations": [
+                {
+                    "id": 20,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 21,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0031_25433.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0053_25203",
+            "annotations": [
+                {
+                    "id": 22,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 23,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0053_25203.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0048_25062",
+            "annotations": [
+                {
+                    "id": 24,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 25,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0048_25062.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0127_25412",
+            "annotations": [
+                {
+                    "id": 26,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 27,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0127_25412.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0043_25666",
+            "annotations": [
+                {
+                    "id": 28,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 29,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0043_25666.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0079_25463",
+            "annotations": [
+                {
+                    "id": 30,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 31,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0079_25463.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0004_25819",
+            "annotations": [
+                {
+                    "id": 32,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 33,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0004_25819.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0067_25443",
+            "annotations": [
+                {
+                    "id": 34,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 35,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0067_25443.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0014_25287",
+            "annotations": [
+                {
+                    "id": 36,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 37,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0014_25287.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0001_25053",
+            "annotations": [
+                {
+                    "id": 38,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 39,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0001_25053.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0051_25505",
+            "annotations": [
+                {
+                    "id": 40,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 41,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0051_25505.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0021_25137",
+            "annotations": [
+                {
+                    "id": 42,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 43,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0021_25137.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0105_25283",
+            "annotations": [
+                {
+                    "id": 44,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 45,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0105_25283.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0104_25086",
+            "annotations": [
+                {
+                    "id": 46,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 47,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0104_25086.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0069_25506",
+            "annotations": [
+                {
+                    "id": 48,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 49,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0069_25506.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0080_25220",
+            "annotations": [
+                {
+                    "id": 50,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 51,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0080_25220.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0088_25303",
+            "annotations": [
+                {
+                    "id": 52,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 53,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0088_25303.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0085_25260",
+            "annotations": [
+                {
+                    "id": 54,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 55,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0085_25260.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0110_25541",
+            "annotations": [
+                {
+                    "id": 56,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 57,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0110_25541.jpg"
+            }
+        },
+        {
+            "id": "American_Crow_0122_25200",
+            "annotations": [
+                {
+                    "id": 58,
+                    "type": "label",
+                    "group": 0,
+                    "label_id": 0
+                },
+                {
+                    "id": 59,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/American_Crow_0122_25200.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0036_795577",
+            "annotations": [
+                {
+                    "id": 60,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 61,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0036_795577.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0015_795578",
+            "annotations": [
+                {
+                    "id": 62,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 63,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0015_795578.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0052_795610",
+            "annotations": [
+                {
+                    "id": 64,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 65,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0052_795610.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0038_795616",
+            "annotations": [
+                {
+                    "id": 66,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 67,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0038_795616.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0042_29127",
+            "annotations": [
+                {
+                    "id": 68,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 69,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0042_29127.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0044_795624",
+            "annotations": [
+                {
+                    "id": 70,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 71,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0044_795624.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0021_795594",
+            "annotations": [
+                {
+                    "id": 72,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 73,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0021_795594.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0069_795579",
+            "annotations": [
+                {
+                    "id": 74,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 75,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0069_795579.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0051_29077",
+            "annotations": [
+                {
+                    "id": 76,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 77,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0051_29077.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0070_29150",
+            "annotations": [
+                {
+                    "id": 78,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 79,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0070_29150.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0071_795627",
+            "annotations": [
+                {
+                    "id": 80,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 81,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0071_795627.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0005_29157",
+            "annotations": [
+                {
+                    "id": 82,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 83,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0005_29157.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0064_795584",
+            "annotations": [
+                {
+                    "id": 84,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 85,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0064_795584.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0012_795612",
+            "annotations": [
+                {
+                    "id": 86,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 87,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0012_795612.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0041_795605",
+            "annotations": [
+                {
+                    "id": 88,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 89,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0041_795605.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0031_795582",
+            "annotations": [
+                {
+                    "id": 90,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 91,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0031_795582.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0030_795591",
+            "annotations": [
+                {
+                    "id": 92,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 93,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0030_795591.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0049_795580",
+            "annotations": [
+                {
+                    "id": 94,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 95,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0049_795580.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0034_795583",
+            "annotations": [
+                {
+                    "id": 96,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 97,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0034_795583.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0043_29115",
+            "annotations": [
+                {
+                    "id": 98,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 99,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0043_29115.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0022_29145",
+            "annotations": [
+                {
+                    "id": 100,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 101,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0022_29145.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0046_795596",
+            "annotations": [
+                {
+                    "id": 102,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 103,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0046_795596.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0050_795608",
+            "annotations": [
+                {
+                    "id": 104,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 105,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0050_795608.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0060_795604",
+            "annotations": [
+                {
+                    "id": 106,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 107,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0060_795604.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0073_795628",
+            "annotations": [
+                {
+                    "id": 108,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 109,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0073_795628.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0024_29173",
+            "annotations": [
+                {
+                    "id": 110,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 111,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0024_29173.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0072_795603",
+            "annotations": [
+                {
+                    "id": 112,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 113,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0072_795603.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0013_29232",
+            "annotations": [
+                {
+                    "id": 114,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 115,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0013_29232.jpg"
+            }
+        },
+        {
+            "id": "Acadian_Flycatcher_0059_29102",
+            "annotations": [
+                {
+                    "id": 116,
+                    "type": "label",
+                    "group": 2,
+                    "label_id": 2
+                },
+                {
+                    "id": 117,
+                    "type": "label",
+                    "group": 1,
+                    "label_id": 1
+                }
+            ],
+            "image": {
+                "path": "test/Acadian_Flycatcher_0059_29102.jpg"
+            }
+        }
+    ]
+}
