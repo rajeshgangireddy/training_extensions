@@ -26,27 +26,81 @@ class TestPerfSemanticSegmentation(PerfTestBase):
         Benchmark.Model(task="semantic_segmentation", name="dino_v2", category="other"),
     ]
 
-    DATASET_TEST_CASES = [
+    DATASET_TEST_CASES =  [
         Benchmark.Dataset(
-            name=f"kvasir_small_{idx}",
-            path=Path("semantic_seg/kvasir_small") / f"{idx}",
-            group="small",
-            num_repeat=5,
-            extra_overrides={},
-        )
-        for idx in (1, 2, 3)
-    ] + [
-        Benchmark.Dataset(
-            name="cityscapes_185_70_medium",
-            path=Path("semantic_seg/cityscapes_185_70_medium"),
-            group="medium",
+            name="green_orange_6_6",
+            path=Path("semantic_seg/green_orange_6_6"),
+            group="tiny_green_orange_6",
             num_repeat=5,
             extra_overrides={},
         ),
         Benchmark.Dataset(
-            name="voc_2012_cut_large",
-            path=Path("semantic_seg/voc_2012_cut_large"),
-            group="large",
+            name="aerial_200_60",
+            path=Path("semantic_seg/aerial_200_60"),
+            group="medium_aerial_200",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="aerial_subset_50_20_30",
+            path=Path("semantic_seg/aerial_subset_50_20_30"),
+            group="small_aerial_50",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="cell_labels_6_6",
+            path=Path("semantic_seg/cell_labels_6_6"),
+            group="tiny_cells_6",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="flood_segmentation_48_16_16",
+            path=Path("semantic_seg/flood_segmentation_48_16_16"),
+            group="small_flood_48",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="human_railway_animal_6_6",
+            path=Path("semantic_seg/human_railway_animal_6_6"),
+            group="tiny_hra",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="idd20k_LITE_1122_204_281",
+            path=Path("semantic_seg/idd20k_LITE_1122_204_281"),
+            group="large_idd1122",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="kitti_150_50",
+            path=Path("semantic_seg/kitti_150_50"),
+            group="medium_kitti_150",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="kvasir_large_880_60",
+            path=Path("semantic_seg/kvasir_large_880_60"),
+            group="large_kvasir_880",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="satellite_buildings_20_8_12",
+            path=Path("semantic_seg/satellite_buildings_20_8_12"),
+            group="small_satellite_20",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="voc_otx_cut_662_300",
+            path=Path("semantic_seg/voc_otx_cut_662_300"),
+            group="medium_voc_662",
             num_repeat=5,
             extra_overrides={},
         ),
