@@ -179,15 +179,15 @@ if __name__ == "__main__":
     # This is primarily for multi-class classification datasets.
 
 
-    DATASET_DIR =  "/home/rgangire/workspace/datasets/Classification/RAW/CUB_200_2011/images"
-    DATASET_NAME = "CUB"
+    DATASET_DIR =  "/home/rgangire/workspace/datasets/Classification/RAW/Oxford-17FlowersSelected"
+    DATASET_NAME = "Flowers"
     OUTPUT_DIR_ROOT = "/home/rgangire/workspace/datasets/Classification/Processed/"
-    TRAIN_SIZE = 3764
-    VAL_SIZE = 900
-    TEST_SIZE = 1200
+    TRAIN_SIZE = 60
+    VAL_SIZE = 12
+    TEST_SIZE = 200
     STRATIFIED_TRAIN_VAL = True # False = UNIFORM SAMPLING
     UNIFORM_TEST = True # Because we measure accuracy instead of Recall
-    MAX_CLASSES = 100 # None for all classes
+    MAX_CLASSES = None # None for all classes
 
     suffix = f"{TRAIN_SIZE}_{VAL_SIZE}_{TEST_SIZE}"
     suffix += "_STRAT" if STRATIFIED_TRAIN_VAL else "_UNIFORM"

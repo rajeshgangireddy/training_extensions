@@ -41,24 +41,78 @@ class TestPerfSingleLabelClassification(PerfTestBase):
 
     DATASET_TEST_CASES = [
         Benchmark.Dataset(
-            name=f"multiclass_CUB_small_{idx}",
-            path=Path("multiclass_classification/multiclass_CUB_small") / f"{idx}",
+            name="multiclass_Pneumonia_tiny",
+            path=Path("Processed/ChestXRay-Pneumonia_12_6_200_UNIFORM_UNIFORM_TESTSET"),
+            group="tiny",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="multiclass_CUB-Woodpecker_tiny",
+            path=Path("Processed/CUB-WOODPECKER_24_12_200_UNIFORM_UNIFORM_TESTSET"),
+            group="tiny",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="multiclass_DTD_tiny",
+            path=Path("Processed/DTD_24_6_200_UNIFORM_UNIFORM_TESTSET"),
+            group="tiny",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="multiclass_IntelImg_small",
+            path=Path("Processed/IntelImgCls_50_10_200_UNIFORM_UNIFORM_TESTSET"),
             group="small",
             num_repeat=5,
             extra_overrides={},
-        )
-        for idx in (1, 2, 3)
-    ] + [
+        ),
         Benchmark.Dataset(
-            name="multiclass_CUB_medium",
-            path=Path("multiclass_classification/multiclass_CUB_medium"),
+            name="multiclass_flowers_small",
+            path=Path("Processed/Flowers_60_12_200_STRAT_UNIFORM-TESTSET"),
+            group="small",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="multiclass_EuroSat_small",
+            path=Path("Processed/EuroSat_80_40_200_STRAT_UNIFORM-TESTSET"),
+            group="small",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="multiclass_Dogs_medium",
+            path=Path("Processed/StanfordDogs-Terrier_240_60_400_STRAT_UNIFORM-TESTSET"),
             group="medium",
             num_repeat=5,
             extra_overrides={},
         ),
         Benchmark.Dataset(
-            name="multiclass_food20_large",
-            path=Path("multiclass_classification/multiclass_food20_large"),
+            name="multiclass_CheXpert_medium",
+            path=Path("Processed/CheXpert_240_60_400_STRAT_UNIFORM-TESTSET-TESTSET"),
+            group="medium",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="multiclass_RESISC45_medium",
+            path=Path("Processed/RESISC45_500_100_400_STRAT_UNIFORM-TESTSET"),
+            group="medium",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="multiclass_CUB100_large",
+            path=Path("Processed/CUB_3764_900_1200_STRAT_UNIFORM-TESTSET_NC-100"),
+            group="large",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="multiclass_CUB_large",
+            path=Path("Processed/CUB_7510_1878_2400_STRAT_UNIFORM-TESTSET"),
             group="large",
             num_repeat=5,
             extra_overrides={},
