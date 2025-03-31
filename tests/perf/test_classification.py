@@ -170,33 +170,44 @@ class TestPerfMultiLabelClassification(PerfTestBase):
         Benchmark.Model(task="classification/multi_label_cls", name="efficientnet_v2", category="balance"),
         Benchmark.Model(task="classification/multi_label_cls", name="mobilenet_v3_large", category="accuracy"),
         Benchmark.Model(task="classification/multi_label_cls", name="deit_tiny", category="other"),
+        # Benchmark.Model(task="classification/multi_label_cls", name="dino_v2", category="other"), DINO NOT SUPPORTED
+        Benchmark.Model(task="classification/multi_label_cls", name="tv_efficientnet_b3", category="other"),
+        Benchmark.Model(task="classification/multi_label_cls", name="tv_efficientnet_v2_l", category="other"),
+        Benchmark.Model(task="classification/multi_label_cls", name="tv_mobilenet_v3_small", category="other"),
     ]
+
 
     DATASET_TEST_CASES = [
         Benchmark.Dataset(
-            name=f"multilabel_CUB_small_{idx}",
-            path=Path("multilabel_classification/multilabel_CUB_small") / f"{idx}",
+            name="multilabel_BCCD_tiny",
+            path=Path("Processed/BCCD_mlabel_tiny_24_6_100"),
+            group="tiny",
+            num_repeat=5,
+            extra_overrides={},
+        ),
+        Benchmark.Dataset(
+            name="multilabel_coco_small",
+            path=Path("Processed/coco_mlabel_small_80_20_100"),
             group="small",
             num_repeat=5,
             extra_overrides={},
-        )
-        for idx in (1, 2, 3)
-    ] + [
+        ),
         Benchmark.Dataset(
-            name="multilabel_CUB_medium",
-            path=Path("multilabel_classification/multilabel_CUB_medium"),
+            name="multilabel_edsa_medium",
+            path=Path("Processed/EDSA_Vehicle_medium_600_150_200"),
             group="medium",
             num_repeat=5,
             extra_overrides={},
         ),
         Benchmark.Dataset(
-            name="multilabel_food20_large",
-            path=Path("multilabel_classification/multilabel_food20_large"),
+            name="multilabel_aid_large",
+            path=Path("Processed/AID_mlabel_large_1920_480_600"),
             group="large",
             num_repeat=5,
             extra_overrides={},
         ),
     ]
+
 
     BENCHMARK_CRITERIA = [  # noqa: RUF012
         Benchmark.Criterion(name="train/epoch", summary="max", compare="<", margin=0.1),

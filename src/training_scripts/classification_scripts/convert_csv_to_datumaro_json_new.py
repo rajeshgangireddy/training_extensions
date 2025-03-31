@@ -46,10 +46,16 @@ def generate_items(df: pd.DataFrame, label_mappings: Dict[str, int]) -> List[Dic
         ]
         annotation_id += len(labels)
 
+        # in some datasets, the image_id is not the full path to the image
+        # Assuming jpg.
+        img_fname = f"{image_id}.jpg" if not image_id.endswith(".jpg") else image_id
+
         items.append({
             "id": image_id,
             "annotations": annotations,
-            "image": {"path": f"{image_id}.jpg"}
+            "image": {
+                "path": img_fname
+            }
         })
 
     return items
@@ -73,7 +79,7 @@ def convert_csv_to_json(csv_path: str, json_path: str):
 
 
 if __name__ == "__main__":
-    csv_file_path = '/home/rgangire/workspace/datasets/Classification/RAW/AID_ML/multilabel.csv'
-    json_file_path = '/home/rgangire/workspace/datasets/Classification/RAW/AID_ML/multilabel.json'
+    csv_file_path = '/home/rgangire/workspace/datasets/Classification/RAW/CarDetectionModel.v16i.multiclass/train/_classes.csv'
+    json_file_path = '/home/rgangire/workspace/datasets/Classification/RAW/CarDetectionModel.v16i.multiclass/train/multilabel.json'
     convert_csv_to_json(csv_path=csv_file_path, json_path=json_file_path)
     print(f"CSV file successfully converted to JSON format at {json_file_path}")

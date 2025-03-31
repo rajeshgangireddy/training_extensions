@@ -35,6 +35,9 @@ def copy_images(items: List[Dict], image_dir: str, subset_dir: str):
         dest_path = os.path.join(subset_dir, os.path.basename(item['image']['path']))
         if os.path.exists(src_path):
             shutil.copy(src_path, dest_path)
+        else:
+            print(f"Warning: Image not found - {src_path}")
+
 
 def summarize_json(data: dict, split: str):
     """Summarize the content of a JSON file."""
@@ -54,6 +57,13 @@ def create_dataset(json_path: str, image_dir: str, output_dir: str, num_train: i
     data = load_json(json_path)
     items = data['items']
     train_items, test_items, val_items = split_data(items, num_train, num_test, num_val)
+
+    # add num_train_val_test to output_dir
+    output_dir = output_dir +  f"_{num_train}_{num_val}_{num_test}"
+
+    if os.path.exists(output_dir):
+        shutil.rmtree(output_dir)
+        print(f"Deleted existing directory: {output_dir}")
 
     # Prepare output directories
     annotations_dir = os.path.join(output_dir, 'annotations')
@@ -78,15 +88,26 @@ def create_dataset(json_path: str, image_dir: str, output_dir: str, num_train: i
     copy_images(test_items, image_dir, os.path.join(images_dir, 'test'))
     copy_images(val_items, image_dir, os.path.join(images_dir, 'val'))
 
+
+    # count the number of images in each split
+    train_images_copied = os.listdir(os.path.join(images_dir, 'train'))
+    test_images_copied  = os.listdir(os.path.join(images_dir, 'test'))
+    val_images_copied  = os.listdir(os.path.join(images_dir, 'val'))
+
+    print(f"Number of images Copied (Train/Val/Test): {len(train_images_copied)}/{len(val_images_copied)}/{len(test_images_copied)}")
+
+
+
+
     print(f"Dataset created successfully in {output_dir}")
 
 
 def main():
     """Main function to define paths and parameters."""
-    json_path = "/home/rgangire/workspace/datasets/Classification/RAW/multi-label-tiny-coco-dataset/AsIs/annotations/default.json"
-    image_dir = "/home/rgangire/workspace/datasets/Classification/RAW/multi-label-tiny-coco-dataset/AsIs/images/default"
-    output_dir = "/home/rgangire/workspace/datasets/Classification/RAW/multi-label-tiny-coco-dataset/Subsets"
-    num_train,  num_val, num_test = 80, 20, 100  # Example split counts
+    json_path = "//home/rgangire/workspace/datasets/Classification/RAW/Stanford-cars-hlabel/Fixed-Big/annotations/default.json"
+    image_dir = "/home/rgangire/workspace/datasets/Classification/RAW/Stanford-cars-hlabel/Fixed-Big/images/default"
+    output_dir = "/home/rgangire/workspace/datasets/Classification/Processed/Stanford-cars-hlabel"
+    num_train,  num_val, num_test = 500, 50, 100
 
     create_dataset(json_path, image_dir, output_dir, num_train, num_test, num_val)
 
