@@ -10,9 +10,9 @@ from typing import TYPE_CHECKING
 from torch import nn
 
 from otx.algo.classification.backbones.torchvision import TorchvisionBackbone
-from otx.algo.classification.classifier import HLabelClassifier
+from otx.algo.classification.classifier import HLabelClassifier, HLabelFlatClassifier
 from otx.algo.classification.heads import (
-    HierarchicalLinearClsHead,
+    HierarchicalLinearClsHead, HierarchicalFlatLinearClsHead
 )
 from otx.algo.classification.losses import AsymmetricAngularLossWithIgnore
 from otx.algo.classification.necks.gap import GlobalAveragePooling
@@ -66,10 +66,33 @@ class TVModelHLabelCls(OTXHlabelClsModel):
     def _create_model(self, head_config: dict | None = None) -> nn.Module:  # type: ignore[override]
         head_config = head_config if head_config is not None else self.label_info.as_head_config_dict()
         backbone = TorchvisionBackbone(backbone=self.model_name)
-        return HLabelClassifier(
+
+
+        # check if this is also a multi-label problem along with h-label
+        is_multi_label = head_config.get("num_multilabel_classes", 0) > 0
+
+        if is_multi_label:
+            classifier =  HLabelClassifier(
             backbone=backbone,
             neck=GlobalAveragePooling(dim=2),
             head=HierarchicalLinearClsHead(**head_config, in_channels=backbone.in_features),
             multiclass_loss=nn.CrossEntropyLoss(),
             multilabel_loss=AsymmetricAngularLossWithIgnore(gamma_pos=0.0, gamma_neg=1.0, reduction="sum"),
-        )
+            )
+        else:
+            classifier = HLabelFlatClassifier(
+            backbone=backbone,
+            neck=GlobalAveragePooling(dim=2),
+            head=HierarchicalFlatLinearClsHead(**head_config, in_channels=backbone.in_features),
+            multiclass_loss=nn.CrossEntropyLoss(),
+            multilabel_loss=AsymmetricAngularLossWithIgnore(gamma_pos=0.0, gamma_neg=1.0, reduction="sum"),
+            )
+
+        return classifier
+
+
+
+
+
+
+

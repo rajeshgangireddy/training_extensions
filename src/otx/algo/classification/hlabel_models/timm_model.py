@@ -12,8 +12,8 @@ from typing import TYPE_CHECKING
 from torch import nn
 
 from otx.algo.classification.backbones.timm import TimmBackbone
-from otx.algo.classification.classifier import HLabelClassifier
-from otx.algo.classification.heads import HierarchicalLinearClsHead
+from otx.algo.classification.classifier import HLabelClassifier, HLabelFlatClassifier
+from otx.algo.classification.heads import HierarchicalLinearClsHead, HierarchicalFlatLinearClsHead
 from otx.algo.classification.losses.asymmetric_angular_loss_with_ignore import AsymmetricAngularLossWithIgnore
 from otx.algo.classification.necks.gap import GlobalAveragePooling
 from otx.algo.utils.support_otx_v1 import OTXv1Helper
@@ -74,13 +74,29 @@ class TimmModelHLabelCls(OTXHlabelClsModel):
             ceil(self.data_input_params.input_size[0] / 32),
             ceil(self.data_input_params.input_size[1] / 32),
         )
-        return HLabelClassifier(
-            backbone=backbone,
-            neck=GlobalAveragePooling(dim=2),
-            head=HierarchicalLinearClsHead(**copied_head_config, in_channels=backbone.num_features),
-            multiclass_loss=nn.CrossEntropyLoss(),
-            multilabel_loss=AsymmetricAngularLossWithIgnore(gamma_pos=0.0, gamma_neg=1.0, reduction="sum"),
-        )
+
+        is_multi_label = copied_head_config.get("num_multilabel_classes", 0) > 0
+        if is_multi_label:
+            head = HierarchicalLinearClsHead(**copied_head_config, in_channels=backbone.num_features)
+            classifier = HLabelClassifier(
+                backbone=backbone,
+                neck=GlobalAveragePooling(dim=2),
+                head=head,
+                multiclass_loss=nn.CrossEntropyLoss(),
+                multilabel_loss=AsymmetricAngularLossWithIgnore(gamma_pos=0.0, gamma_neg=1.0, reduction="sum"),
+            )
+
+        else:
+            head = HierarchicalFlatLinearClsHead(**copied_head_config,in_channels=backbone.num_features)
+            classifier = HLabelFlatClassifier(
+                backbone=backbone,
+                neck=GlobalAveragePooling(dim=2),
+                head=head,
+                multiclass_loss=nn.CrossEntropyLoss(),
+            )
+
+        return classifier
+
 
     def load_from_otx_v1_ckpt(self, state_dict: dict, add_prefix: str = "model.") -> dict:
         """Load the previous OTX ckpt according to OTX2.0."""

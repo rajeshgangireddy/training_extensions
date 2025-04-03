@@ -222,6 +222,8 @@ class OTXHlabelClsDataset(OTXDataset):
                 label = Label(label=ann.label)
                 label_ids.add(label.label)
 
+            break
+
         hlabel_labels = self._convert_label_to_hlabel_format([Label(label=idx) for idx in label_ids], ignored_labels)
 
         entity = TorchDataItem(

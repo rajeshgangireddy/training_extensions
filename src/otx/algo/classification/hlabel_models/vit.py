@@ -14,9 +14,10 @@ from torch import nn
 from torch.hub import download_url_to_file
 
 from otx.algo.classification.backbones.vision_transformer import VisionTransformer
-from otx.algo.classification.classifier import HLabelClassifier
+from otx.algo.classification.classifier import HLabelClassifier, HLabelFlatClassifier
 from otx.algo.classification.heads import (
     HierarchicalLinearClsHead,
+    HierarchicalFlatLinearClsHead,
 )
 from otx.algo.classification.losses import AsymmetricAngularLossWithIgnore
 from otx.algo.classification.multiclass_models.vit import ForwardExplainMixInForViT
@@ -115,14 +116,25 @@ class VisionTransformerHLabelCls(ForwardExplainMixInForViT, OTXHlabelClsModel):
             img_size=self.data_input_params.input_size,
             lora=self.lora,
         )
-        model = HLabelClassifier(
-            backbone=vit_backbone,
-            neck=None,
-            head=HierarchicalLinearClsHead(**head_config, in_channels=vit_backbone.embed_dim),
-            multiclass_loss=nn.CrossEntropyLoss(),
-            multilabel_loss=AsymmetricAngularLossWithIgnore(gamma_pos=0.0, gamma_neg=1.0, reduction="sum"),
-            init_cfg=init_cfg,
-        )
+
+        is_multi_label = head_config.get("num_multilabel_classes", 0) > 0
+        if is_multi_label:
+            model = HLabelClassifier(
+                backbone=vit_backbone,
+                neck=None,
+                head=HierarchicalLinearClsHead(**head_config, in_channels=vit_backbone.embed_dim),
+                multiclass_loss=nn.CrossEntropyLoss(),
+                multilabel_loss=AsymmetricAngularLossWithIgnore(gamma_pos=0.0, gamma_neg=1.0, reduction="sum"),
+                init_cfg=init_cfg,
+            )
+        else:
+            model = HLabelFlatClassifier(
+                backbone=vit_backbone,
+                neck=None,
+                head=HierarchicalFlatLinearClsHead(**head_config, in_channels=vit_backbone.embed_dim),
+                multiclass_loss=nn.CrossEntropyLoss(),
+                init_cfg=init_cfg,
+            )
 
         model.init_weights()
         if self.model_name in pretrained_urls:

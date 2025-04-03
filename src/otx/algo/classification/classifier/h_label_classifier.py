@@ -143,3 +143,101 @@ class HLabelClassifier(ImageClassifier):
             outputs["preds"] = preds
 
         return outputs
+
+
+class HLabelFlatClassifier(ImageClassifier):
+    """Hierarchical classifier that uses flat classification.
+    This effectively makes it a multiclass classifier with
+    the leaf nodes as the classes.
+
+    Args:
+        backbone (nn.Module): Backbone network.
+        neck (nn.Module | None): Neck network.
+        head (HierarchicalClsHead): Head network.
+        multiclass_loss (nn.Module): Multiclass loss function.
+        multilabel_loss (nn.Module | None, optional): Multilabel loss function.
+        init_cfg (dict | list[dict] | None, optional): Initialization configuration.
+
+    Attributes:
+        multiclass_loss (nn.Module): Multiclass loss function.
+        multilabel_loss (nn.Module | None): Multilabel loss function.
+        is_ignored_label_loss (bool): Flag indicating if ignored label loss is used.
+
+    Methods:
+        loss(inputs, labels, **kwargs): Calculate losses from a batch of inputs and data samples.
+        _forward_explain(images): Perform forward pass for explanation.
+    """
+
+    def __init__(
+        self,
+        backbone: nn.Module,
+        neck: nn.Module | None,
+        head: HierarchicalClsHead,
+        multiclass_loss: nn.Module,
+        multilabel_loss: nn.Module | None = None,
+        init_cfg: dict | list[dict] | None = None,
+    ):
+        super().__init__(
+            backbone=backbone,
+            neck=neck,
+            head=head,
+            loss=multiclass_loss,
+            init_cfg=init_cfg,
+        )
+
+        self.multiclass_loss = multiclass_loss
+        self.multilabel_loss = multilabel_loss # Not used for now
+        self.is_ignored_label_loss = False # Not used for now
+
+        if self.head.num_multilabel_classes > 0:
+            error_text = (f"{self.__class__.__name__} does not support multilabel classification in "
+                          f"combination with hierarchical classification. Please use HLabelClassifier instead.")
+            raise ValueError(error_text)
+
+
+    def loss(self, inputs: torch.Tensor, labels: torch.Tensor, **kwargs) -> torch.Tensor:
+        """Calculate losses from a batch of inputs and data samples without hierarchical information.
+
+        Args:
+            inputs (torch.Tensor): The input tensor with shape
+                (N, C, ...) in general.
+            labels (torch.Tensor): The annotation data of
+                every samples.
+
+        Returns:
+            torch.Tensor: loss components
+        """
+        # TODO : add loss factor from multiclass classification
+        cls_scores = self.extract_feat(inputs, stage="head")
+        loss_score = self.multiclass_loss(cls_scores, labels)
+        return loss_score
+
+    @torch.no_grad()
+    def _forward_explain(self, images: torch.Tensor) -> dict[str, torch.Tensor | list[torch.Tensor]]:
+        from otx.algo.explain.explain_algo import feature_vector_fn
+
+        x = self.backbone(images)
+        backbone_feat = x
+
+        feature_vector = feature_vector_fn(backbone_feat)
+        saliency_map = self.explainer.func(backbone_feat)
+
+        if hasattr(self, "neck") and self.neck is not None:
+            x = self.neck(x)
+
+        logits = self.head(x)
+        pred_results = self.head._get_predictions(logits)  # noqa: SLF001
+        scores = pred_results["scores"]
+        preds = pred_results["labels"]
+
+        outputs = {
+            "logits": logits,
+            "feature_vector": feature_vector,
+            "saliency_map": saliency_map,
+        }
+
+        if not torch.jit.is_tracing():
+            outputs["scores"] = scores
+            outputs["preds"] = preds
+
+        return outputs

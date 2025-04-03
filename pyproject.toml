@@ -15,7 +15,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {file = "LICENSE"}
 authors = [
-    { name = "OpenVINO™ Training Extensions Contributors" },
+    { name = "OpenVINO™ TrainiÏng Extensions Contributors" },
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",

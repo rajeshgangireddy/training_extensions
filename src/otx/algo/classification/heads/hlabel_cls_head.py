@@ -122,6 +122,108 @@ class HierarchicalClsHead(BaseModule):
         }
 
 
+
+class HierarchicalFlatLinearClsHead(HierarchicalClsHead):
+    """
+    A simple linear head for the hierarchical classification task.
+    Treats all the leaf nodes as individual classes.
+
+    Args:
+        num_multiclass_heads (int): Ignored. As there will be a single head for all classes.
+        num_multilabel_classes (int): Ignored as multilabel is not supported in this head.
+        head_idx_to_logits_range (int): Ignored as there will be a single head for all classes.
+        num_single_label_classes (int): The number of single label classes same as the number of lead nodes.
+        empty_multiclass_head_indices (list[int]): Ignored as there will be a single head for all classes.
+        in_channels (int): Number of channels in the input feature map.
+        num_classes (int): Number of classes (same as num_single_label_classes).
+        thr (float | None): Predictions with scores under the thresholds are considered
+                            as negative. Defaults to 0.5.
+
+    """
+
+    def __init__(
+            self,
+            num_multiclass_heads: int,
+            num_multilabel_classes: int,
+            head_idx_to_logits_range: dict[str, tuple[int, int]],
+            num_single_label_classes: int,
+            empty_multiclass_head_indices: list[int],
+            in_channels: int,
+            num_classes: int,
+            thr: float = 0.5,
+            init_cfg: dict | None = None,
+            **kwargs,
+    ):
+        super().__init__(
+            num_multiclass_heads=num_multiclass_heads,
+            num_multilabel_classes=num_multilabel_classes,
+            head_idx_to_logits_range=head_idx_to_logits_range,
+            num_single_label_classes=num_single_label_classes,
+            empty_multiclass_head_indices=empty_multiclass_head_indices,
+            in_channels=in_channels,
+            num_classes=num_classes,
+            thr=thr,
+            init_cfg=init_cfg,
+            **kwargs,
+        )
+
+        # TODO : Check if num_classes are flat classes or all classes
+        self.fc = nn.Linear(self.in_channels, self.num_classes)
+        self._init_layers()
+
+    def _init_layers(self) -> None:
+        """
+        initialize the weights of the classification head using a normal distribution.
+        """
+        normal_init(self.fc, mean=0, std=0.01, bias=0)
+
+    def forward(self, feats: tuple[torch.Tensor] | torch.Tensor) -> torch.Tensor:
+        """
+        Forward pass for the classification head.
+        Args:
+            feats: the features (usually after the backbone and neck)
+
+        Returns:
+            torch.Tensor: the logits for the classes of shape (num_images, num_classes)
+
+        """
+        pre_logits = self.pre_logits(feats)
+        return self.fc(pre_logits)
+
+    def _get_predictions(
+        self,
+        cls_scores: torch.Tensor,
+    ) -> dict[str, torch.Tensor]:
+        """
+        Post-process the output of head : Applies softmax and gets the prediction labels.
+        Labels correspond to the flat classification (not hierarchical). Hence, they range from
+        0 to num_classes - 1.
+        Since this is a flat classification head,hierarchical info will not be used
+        For now, it only supports multiclass classification without multilabel samples.
+        Args:
+            cls_scores: the logits for the classes of shape (num_images, num_classes)
+
+        Returns:
+            dict[str, torch.Tensor]: the predicted scores and labels
+        """
+        multiclass_pred_scores: list | torch.Tensor = []
+        multiclass_pred_labels: list | torch.Tensor = []
+
+        multiclass_pred_scores = torch.nn.functional.softmax(cls_scores, dim=1)
+        multiclass_pred_labels = torch.argmax(multiclass_pred_scores, dim=1)
+
+
+        if self.num_multilabel_classes > 0:
+            error_text = (f"Hierarchical classification with {self.__class__.__name__} "
+                          f"head does not support multilabel classification.")
+            raise NotImplementedError(error_text)
+
+        return {
+            "scores": multiclass_pred_scores,
+            "labels": multiclass_pred_labels,
+        }
+
+
 class HierarchicalLinearClsHead(HierarchicalClsHead):
     """Custom classification linear head for hierarchical classification task.
 
