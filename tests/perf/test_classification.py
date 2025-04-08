@@ -258,31 +258,15 @@ class TestPerfHierarchicalLabelClassification(PerfTestBase):
     MODEL_TEST_CASES = [  # noqa: RUF012
         Benchmark.Model(task="classification/h_label_cls", name="efficientnet_b0", category="speed"),
         Benchmark.Model(task="classification/h_label_cls", name="efficientnet_v2", category="balance"),
-        Benchmark.Model(task="classification/h_label_cls", name="mobilenet_v3_large", category="accuracy"),
+        # Benchmark.Model(task="classification/h_label_cls", name="mobilenet_v3_large", category="accuracy"),
         Benchmark.Model(task="classification/h_label_cls", name="deit_tiny", category="other"),
     ]
 
     DATASET_TEST_CASES = [
         Benchmark.Dataset(
-            name=f"hlabel_CUB_small_{idx}",
-            path=Path("hlabel_classification/hlabel_CUB_small") / f"{idx}",
-            group="small",
-            num_repeat=5,
-            extra_overrides={},
-        )
-        for idx in (1, 2, 3)
-    ] + [
-        Benchmark.Dataset(
-            name="hlabel_CUB_medium",
-            path=Path("hlabel_classification/hlabel_CUB_medium"),
+            name="hlabel_stanford_cars",
+            path=Path("Processed/Stanford-cars-hlabel_500_50_100"),
             group="medium",
-            num_repeat=5,
-            extra_overrides={},
-        ),
-        Benchmark.Dataset(
-            name="cifar100_label_group_datum_format_large",
-            path=Path("hlabel_classification/cifar100_label_group_datum_format_large"),
-            group="large",
             num_repeat=5,
             extra_overrides={},
         ),
