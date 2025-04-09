@@ -227,6 +227,9 @@ class OTXModel(LightningModule):
         metric_inputs = self._convert_pred_entity_to_compute_metric(preds, batch)
 
         if isinstance(metric_inputs, dict):
+            if metric_inputs["preds"].ndim == 1:
+                metric_inputs["target"] = metric_inputs["target"].view(-1)
+
             self.metric.update(**metric_inputs)
             return
 
@@ -252,6 +255,8 @@ class OTXModel(LightningModule):
         metric_inputs = self._convert_pred_entity_to_compute_metric(preds, batch)
 
         if isinstance(metric_inputs, dict):
+            if metric_inputs["preds"].ndim == 1:
+                metric_inputs["target"] = metric_inputs["target"].view(-1)
             self.metric.update(**metric_inputs)
             return
 

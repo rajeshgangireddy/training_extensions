@@ -317,6 +317,21 @@ class MixedHLabelAccuracy(Metric):
     def update(self, preds: torch.Tensor, target: torch.Tensor) -> None:
         """Update state with predictions and targets."""
         # Split preds into multiclass and multilabel parts
+
+        # check if preds is 1-d
+        if preds.ndim == 1:
+            # Then this is a flat style classification
+            target_flat = target.view(-1)
+
+            # calculate the accuracy
+            self.multiclass_head_accuracy[0].update(preds, target_flat)
+            return
+
+
+
+
+
+
         for head_idx in range(self.num_multiclass_heads):
             preds_multiclass = preds[:, head_idx]
             target_multiclass = target[:, head_idx]
@@ -387,4 +402,5 @@ def _mixed_hlabel_accuracy(label_info: HLabelInfo) -> MetricCollection:
     )
 
 
-HLabelClsMetricCallable: MetricCallable = _mixed_hlabel_accuracy  # type: ignore[assignment]
+# HLabelClsMetricCallable: MetricCallable = _mixed_hlabel_accuracy  # type: ignore[assignment]
+HLabelClsMetricCallable: MetricCallable = _multi_class_cls_metric_callable  # type: ignore[assignment]

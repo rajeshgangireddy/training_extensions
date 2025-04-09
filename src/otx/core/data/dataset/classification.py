@@ -224,7 +224,16 @@ class OTXHlabelClsDataset(OTXDataset):
 
             break
 
-        hlabel_labels = self._convert_label_to_hlabel_format([Label(label=idx) for idx in label_ids], ignored_labels)
+
+        # hlabelchanges
+
+        if len(label_ids) > 1:
+            msg = f"HLabel Classification can't use the multi-label, currently len(labels) = {len(label_ids)}"
+            raise ValueError(msg)
+
+        hlabel_labels = list(label_ids)[0]
+
+        # hlabel_labels = self._convert_label_to_hlabel_format([Label(label=idx) for idx in label_ids], ignored_labels)
 
         entity = TorchDataItem(
             image=img_data,

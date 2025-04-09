@@ -66,13 +66,19 @@ class EfficientNetHLabelCls(OTXHlabelClsModel):
         )
 
         is_multi_label = copied_head_config.get("num_multilabel_classes", 0) > 0
+        # head = HierarchicalLinearClsHead(**copied_head_config, in_channels=backbone.num_features) \
+        #     if is_multi_label else (
+        #     HierarchicalFlatLinearClsHead(**copied_head_config, in_channels=backbone.num_features))
 
 
-        head = HierarchicalLinearClsHead(**copied_head_config, in_channels=backbone.num_features) \
-            if is_multi_label else (
-            HierarchicalFlatLinearClsHead(**copied_head_config, in_channels=backbone.num_features))
+        use_old_code = False
 
-        classifier_class = HLabelClassifier if is_multi_label else HLabelFlatClassifier
+        if use_old_code:
+            head = HierarchicalLinearClsHead(**copied_head_config, in_channels=backbone.num_features)
+            classifier_class = HLabelClassifier
+        else:
+            head = HierarchicalFlatLinearClsHead(**copied_head_config,in_channels=backbone.num_features)
+            classifier_class = HLabelFlatClassifier
 
         return classifier_class(
             backbone=backbone,

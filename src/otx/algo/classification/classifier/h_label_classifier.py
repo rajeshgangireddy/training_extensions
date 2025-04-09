@@ -209,8 +209,11 @@ class HLabelFlatClassifier(ImageClassifier):
         """
         # TODO : add loss factor from multiclass classification
         cls_scores = self.extract_feat(inputs, stage="head")
+        # flatten labels
+        labels = labels.view(-1)
         loss_score = self.multiclass_loss(cls_scores, labels)
         return loss_score
+
 
     @torch.no_grad()
     def _forward_explain(self, images: torch.Tensor) -> dict[str, torch.Tensor | list[torch.Tensor]]:
