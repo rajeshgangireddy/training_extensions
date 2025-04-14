@@ -104,10 +104,10 @@ def create_dataset(json_path: str, image_dir: str, output_dir: str, num_train: i
 
 def main():
     """Main function to define paths and parameters."""
-    json_path = "/home/rgangire/workspace/datasets/Classification/RAW/AID_ML/multilabel.json"
-    image_dir = "/home/rgangire/workspace/datasets/Classification/RAW/AID_ML/All"
-    output_dir = "/home/rgangire/workspace/datasets/Classification/Processed/AID_mlabel_large"
-    num_train,  num_val, num_test = 1000, 300, 300
+    json_path = "/home/rgangire/workspace/datasets/Classification/RAW/CUB-3-LEVELS-HLABEL-NoSingleCls-GETI-DATUMARO/annotations/default.json"
+    image_dir = "/home/rgangire/workspace/datasets/Classification/RAW/CUB-3-LEVELS-HLABEL-NoSingleCls-GETI-DATUMARO/images/default"
+    output_dir = "/home/rgangire/workspace/datasets/Classification/Processed/CUB-H-Label-Small-3L-6N-NoMultilabel"
+    num_train,  num_val, num_test = 313, 64, 100
 
     create_dataset(json_path, image_dir, output_dir, num_train, num_test, num_val)
 
