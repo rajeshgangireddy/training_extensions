@@ -166,7 +166,7 @@ class TestPerfMultiLabelClassification(PerfTestBase):
         ),
         Benchmark.Dataset(
             name="multilabel_aid_large",
-            path=Path("Processed/AID_mlabel_large_1920_480_600"),
+            path=Path("Processed/AID_mlabel_large_1000_300_300"),
             group="large",
             num_repeat=5,
             extra_overrides={},
