@@ -24,18 +24,49 @@ MODEL_TEST_CASES = [
 
 DATASET_TEST_CASES = [
     DatasetInfo(
-        name="mvtec_wood_medium",
-        path=Path("anomaly/mvtec/wood_medium"),
+        name="mvtec_cable_tiny",
+        path=Path("anomaly/mvtec_cable_tiny"),
+        group="tiny",
+        extra_overrides={},
+    ),
+    DatasetInfo(
+        name="mvtec_capsule_tiny",
+        path=Path("anomaly/mvtec_capsule_tiny"),
+        group="tiny",
+        extra_overrides={},
+    ),
+    DatasetInfo(
+        name="mvtec_hazelnut_small",
+        path=Path("anomaly/mvtec_hazelnut_small"),
+        group="small",
+        extra_overrides={},
+    ),
+    DatasetInfo(
+        name="mvtec_transistor_small",
+        path=Path("anomaly/mvtec_transistor_small"),
+        group="small",
+        extra_overrides={},
+    ),
+    DatasetInfo(
+        name="mvtec_screw_medium",
+        path=Path("anomaly/mvtec_screw_medium"),
         group="medium",
         extra_overrides={},
     ),
     DatasetInfo(
-        name="mvtec_hazelnut_large",
-        path=Path("anomaly/mvtec/hazelnut_large"),
+        name="visa_capsules_medium",
+        path=Path("anomaly/visa_capsules_medium"),
+        group="medium",
+        extra_overrides={},
+    ),
+    DatasetInfo(
+        name="visa_pcb3_large",
+        path=Path("anomaly/visa_pcb3_large"),
         group="large",
         extra_overrides={},
     ),
 ]
+
 
 BENCHMARK_CRITERIA = [
     Criterion(name="training:epoch", summary="max", compare="<", margin=0.1),
