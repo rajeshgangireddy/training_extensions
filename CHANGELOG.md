@@ -4,12 +4,21 @@ All notable changes to this project will be documented in this file.
 
 ## \[Unreleased\]
 
+### Enhancements
+
+- Bump OV and NNCF to 2025.1
+  (https://github.com/open-edge-platform/training_extensions/pull/4334)
+- Bump torch to 2.7.0
+  (https://github.com/open-edge-platform/training_extensions/pull/4361)
+
 ### Bug fixes
 
 - Fix DataInputParams Serialization
   (<https://github.com/openvinotoolkit/training_extensions/pull/4293>)
 - Align KP detection validation with ModelAPI post processing
   (<https://github.com/openvinotoolkit/training_extensions/pull/4300>)
+- Fix missing mAP score reporting for instance segmentation
+  (<https://github.com/open-edge-platform/training_extensions/pull/4364>)
 
 ### Removed
 
@@ -24,6 +33,8 @@ All notable changes to this project will be documented in this file.
   (<https://github.com/openvinotoolkit/training_extensions/pull/4184>)
 - Add UFlow anomaly detection algorithm
   (<https://github.com/openvinotoolkit/training_extensions/pull/4251>)
+- Improve Pre-Merge Test
+  (<https://github.com/openvinotoolkit/training_extensions/pull/4307>)
 
 ### Enhancements
 
