@@ -18,6 +18,8 @@ from tests.perf_v2.utils import (
     setup_output_root,
 )
 
+import sys
+
 logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
@@ -41,7 +43,7 @@ if __name__ == "__main__":
             for seed in range(args.num_repeat):
                 subprocess.run(
                     [  # noqa: S603, S607
-                        "python",
+                         sys.executable,
                         "-m",
                         "tests.perf_v2.benchmark",
                         "--task",
