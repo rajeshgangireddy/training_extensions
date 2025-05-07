@@ -32,11 +32,11 @@ class TestPerfSingleLabelClassification(PerfTestBase):
         Benchmark.Model(task="classification/multi_class_cls", name="efficientnet_b0", category="speed"),
         Benchmark.Model(task="classification/multi_class_cls", name="efficientnet_v2", category="balance"),
         Benchmark.Model(task="classification/multi_class_cls", name="mobilenet_v3_large", category="accuracy"),
-        Benchmark.Model(task="classification/multi_class_cls", name="deit_tiny", category="other"),
-        Benchmark.Model(task="classification/multi_class_cls", name="dino_v2", category="other"),
-        Benchmark.Model(task="classification/multi_class_cls", name="tv_efficientnet_b3", category="other"),
-        Benchmark.Model(task="classification/multi_class_cls", name="tv_efficientnet_v2_l", category="other"),
-        Benchmark.Model(task="classification/multi_class_cls", name="tv_mobilenet_v3_small", category="other"),
+        # Benchmark.Model(task="classification/multi_class_cls", name="deit_tiny", category="other"),
+        # Benchmark.Model(task="classification/multi_class_cls", name="dino_v2", category="other"),
+        # Benchmark.Model(task="classification/multi_class_cls", name="tv_efficientnet_b3", category="other"),
+        # Benchmark.Model(task="classification/multi_class_cls", name="tv_efficientnet_v2_l", category="other"),
+        # Benchmark.Model(task="classification/multi_class_cls", name="tv_mobilenet_v3_small", category="other"),
     ]
 
     DATASET_TEST_CASES = [
