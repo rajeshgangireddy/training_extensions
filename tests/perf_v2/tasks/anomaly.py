@@ -39,7 +39,6 @@ DATASET_TEST_CASES = [
         name="mvtec_hazelnut_small",
         path=Path("anomaly/mvtec_hazelnut_small"),
         group="small",
-        group="small",
         extra_overrides={},
     ),
     DatasetInfo(
@@ -60,12 +59,12 @@ DATASET_TEST_CASES = [
         group="medium",
         extra_overrides={},
     ),
-    # DatasetInfo(
-    #     name="visa_pcb3_large",
-    #     path=Path("anomaly/visa_pcb3_large"),
-    #     group="large",
-    #     extra_overrides={},
-    # ),
+    DatasetInfo(
+        name="visa_pcb3_large",
+        path=Path("anomaly/visa_pcb3_large"),
+        group="large",
+        extra_overrides={},
+    ),
 ]
 
 
