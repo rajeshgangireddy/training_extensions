@@ -7,6 +7,7 @@ from __future__ import annotations
 import logging
 import subprocess
 from pathlib import Path
+import sys
 
 from otx.core.types.task import OTXTaskType
 from tests.perf_v2 import DATASET_COLLECTIONS, MODEL_COLLECTIONS

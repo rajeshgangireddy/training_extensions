@@ -157,6 +157,7 @@ V1_V2_NAME_MAP = {
 
 
 TASK_METRIC_MAP = {
+    "anomaly" : "f1-score",
     "anomaly_classification": "f1-score",
     "anomaly_detection": "f1-score",
     "anomaly_segmentation": "f1-score",
