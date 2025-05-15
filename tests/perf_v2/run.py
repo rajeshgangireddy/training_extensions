@@ -44,7 +44,7 @@ if __name__ == "__main__":
             for seed in range(args.num_repeat):
                 subprocess.run(
                     [  # noqa: S603, S607
-                         sys.executable,
+                        sys.executable,
                         "-m",
                         "tests.perf_v2.benchmark",
                         "--task",
