@@ -77,5 +77,5 @@ def split_dataset(raw_dir, output_dir, split_ratio=(0.7, 0.2, 0.1), max_size=Non
 
 # Example usage:
 raw_dataset_dir = "/home/rgangire/workspace/datasets/SemanticSegmentation/semantic_seg/flood/FloodSegmentation/RAW"
-output_dir = "/home/rgangire/workspace/datasets/SemanticSegmentation/semantic_seg/flood_segmetation"
+output_dir = "/home/rgangire/workspace/datasets/SemanticSegmentation/semantic_seg/flood_segmetation--es"
 split_dataset(raw_dataset_dir, output_dir, split_ratio=(0.6, 0.2, 0.2), max_size=80,max_per_subset=None)

@@ -1,6 +1,6 @@
 import os
 import json
-import shutil
+import numpy as np
 from PIL import Image
 
 
@@ -15,6 +15,36 @@ def check_and_convert_to_jpg(image_path):
         return os.path.basename(new_path)
     return os.path.basename(image_path)
 
+
+def check_and_convert_mask_for_classes(mask_path, num_classes):
+    """
+    Check if a mask's pixel values are within the range [0, num_classes - 1].
+    If not, convert them to be within the range.
+
+    Args:
+        mask_path (str): Path to the mask image.
+        num_classes (int): Number of classes.
+
+    Returns:
+        None: The mask is updated in place if necessary.
+    """
+    mask = Image.open(mask_path)
+    mask_array = np.array(mask)
+
+    # Ensure pixel values are within the range [0, num_classes - 1]
+    # histogram of mask_array
+    # hist, _ = np.histogram(mask_array, bins=np.arange(num_classes + 1))
+    if mask_array.max() >= num_classes:
+        unique, counts = np.unique(mask_array, return_counts=True)
+        print(f"Unique pixel values in {mask_path}: {dict(zip(unique, counts))}")
+        print(f"⚠️ Mask {mask_path} has pixel values outside the range [0, {num_classes - 1}]. Updating...")
+        mask_array = np.clip(mask_array, 0, num_classes - 1)
+        # Convert to uint8 for saving
+        mask_array = mask_array.astype(np.uint8)
+        updated_mask = Image.fromarray(mask_array)
+        updated_mask.save(mask_path)
+        print(f"Updated mask saved at {mask_path}")
+    return mask_path
 
 def check_dataset_structure(base_path):
     """Checks dataset folder structure, correct image formats, image-mask consistency, and dataset_meta.json validation."""
@@ -62,6 +92,9 @@ def check_dataset_structure(base_path):
                 except json.JSONDecodeError:
                     print(f"❌ Invalid JSON format in {meta_file_path}")
 
+            # number of classes according to meta file
+            label_map = meta_data["label_map"]
+            num_classes = len(label_map)
             # Check images and corresponding masks
             img_dir = os.path.join(subset_path, "images")
             mask_dir = os.path.join(subset_path, "masks")
@@ -84,14 +117,17 @@ def check_dataset_structure(base_path):
                     new_img_name = check_and_convert_to_jpg(img_path)
                     updated_images.append(new_img_name)
 
-                # Validate mask-image consistency
+                # Validate mask-image consistency and check binary masks
                 for img_name in updated_images:
                     mask_name = os.path.splitext(img_name)[0] + ".png"
+                    mask_path = os.path.join(mask_dir, mask_name)
                     if mask_name not in masks:
                         print(f"⚠ Missing mask: {mask_name} for image {img_name} in {subset} in dataset {dataset}")
+                    else:
+                        check_and_convert_mask_for_classes(mask_path,num_classes)
 
     print("\nSanity check completed!")
 
 
-DATASET_ROOT_DIR = "/home/rgangire/workspace/datasets/SemanticSegmentation/semantic_seg"
+DATASET_ROOT_DIR = "/home/rgangire/workspace/datasets/SemanticSegmentation/semantic_seg/sat"
 check_dataset_structure(DATASET_ROOT_DIR)
