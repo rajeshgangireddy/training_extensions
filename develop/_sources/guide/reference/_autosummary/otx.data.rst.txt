@@ -1,0 +1,32 @@
+otx.data
+========
+
+.. automodule:: otx.data
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      OTXDataBatch
+      OTXDataItem
+      OTXPredBatch
+      OTXPredItem
+   
+   
+
+   
+   
+   
+
+
+

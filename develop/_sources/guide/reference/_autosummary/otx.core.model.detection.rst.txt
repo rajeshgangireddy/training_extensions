@@ -1,0 +1,30 @@
+otx.core.model.detection
+========================
+
+.. automodule:: otx.core.model.detection
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      OTXDetectionModel
+      OVDetectionModel
+   
+   
+
+   
+   
+   
+
+
+
