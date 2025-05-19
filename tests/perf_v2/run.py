@@ -19,7 +19,7 @@ from tests.perf_v2.utils import (
     setup_output_root,
 )
 
-import sys
+
 
 logger = logging.getLogger(__name__)
 
