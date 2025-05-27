@@ -1,4 +1,4 @@
-port os
+import os
 import json
 import cv2
 import numpy as np
@@ -32,14 +32,17 @@ def draw_segmentation(image, annotations, categories):
     return cv2.addWeighted(image, 0.5, overlay, 0.5, 0)
 
 
-def main(image_dir, json_path):
-    """Main function to display images and annotations."""
+def main(image_dir, json_path, max_images=None):
+    """Main function to display images and annotations, with optional limit."""
     annotations_data = load_annotations(json_path)
     images = annotations_data['images']
     annotations = annotations_data['annotations']
     categories = annotations_data['categories']
 
+    shown = 0
     for img_info in images:
+        if max_images is not None and shown >= max_images:
+            break
         img_path = os.path.join(image_dir, img_info['file_name'])
         if not os.path.exists(img_path):
             print(f"Image not found: {img_path}")
@@ -63,11 +66,13 @@ def main(image_dir, json_path):
         plt.axis("off")
 
         plt.show()
+        shown += 1
 
 
 if __name__ == "__main__":
-    import argparse
-
-    images_dir = None
-
-    main(args.image_dir, args.json_path)
+    dataset_root = "/home/rgangire/workspace/datasets/instance_seg/wgisd_small/wgisd_small/1/"
+    split = "test"
+    images_dir = os.path.join(dataset_root, "images", split)
+    ann_json_path = os.path.join(dataset_root, "annotations", f"instances_{split}.json")
+    max_images = 10  # Set to None to show all images, or set to an integer to limit
+    main(images_dir, ann_json_path, max_images)
