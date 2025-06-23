@@ -19,7 +19,7 @@ def get_image_annotations(image_id, annotations):
 
 def get_category_colors(categories):
     """Generate fixed colors for each category."""
-    np.random.seed(42)  # For consistent colors across runs
+    # np.random.seed(42)  # For consistent colors across runs
     return {cat['id']: tuple(np.random.randint(0, 255, 3).tolist())
             for cat in categories}
 
@@ -33,7 +33,13 @@ def draw_segmentation(image, annotations, categories, show_bboxes=False, segment
     category_colors = get_category_colors(categories) if segmentation_type == 'semantic' else None
 
     for ann in annotations:
-        segmentation = np.array(ann['segmentation'][0], dtype=np.int32).reshape(-1, 2)
+
+        seg_ann = ann['segmentation']
+        if isinstance(seg_ann, list):
+            segmentation = np.array(seg_ann[0], dtype=np.int32).reshape(-1, 2)
+        elif isinstance(seg_ann, dict):
+            segmentation = np.array(seg_ann['counts'], dtype=np.int32).reshape(-1, 2)
+
         category_id = ann['category_id']
 
         # Choose color based on segmentation type
@@ -114,11 +120,11 @@ def main(image_dir, json_path, max_images=None, show_bboxes=False, segmentation_
 
 
 if __name__ == "__main__":
-    dataset_root = "/home/rgangire/workspace/datasets/SemanticSegmentation/semantic_seg/holesingear-dataset-coco"
+    dataset_root = "/home/rgangire/workspace/datasets/SemanticSegmentation/semantic_seg/holesingear-dataset-voc-cleaned_coco"
     split = "default"
     images_dir = os.path.join(dataset_root, "images", split)
     ann_json_path = os.path.join(dataset_root, "annotations", f"instances_{split}.json")
     max_images = 3  # Set to None to show all images, or set to an integer to limit
     show_bboxes = False  # Set to True to show bounding boxes
-    segmentation_type = 'instance'  # Choose between 'instance' or 'semantic'
+    segmentation_type = 'semantic'  # Choose between 'instance' or 'semantic'
     main(images_dir, ann_json_path, max_images, show_bboxes, segmentation_type)
