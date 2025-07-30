@@ -13,9 +13,9 @@
 
 <!-- markdownlint-disable MD042 -->
 
-[![python](https://img.shields.io/badge/python-3.10%2B-green)]()
+[![python](https://img.shields.io/badge/python-3.11%2B-green)]()
 [![pytorch](https://img.shields.io/badge/pytorch-2.7%2B-orange)]()
-[![openvino](https://img.shields.io/badge/openvino-2025.1-purple)]()
+[![openvino](https://img.shields.io/badge/openvino-2025.2-purple)]()
 
 <!-- markdownlint-enable  MD042 -->
 
@@ -75,13 +75,13 @@ If you want to make changes to the library, then a local installation is recomme
 Installing the library with uv tool is the easiest way to get started with otx.
 
 ```bash
-uv pip install otx
+uv pip install otx[cuda]
 ```
 
 For Intel GPUs users:
 
 ```bash
-uv pip install otx --extra-index-url https://download.pytorch.org/whl/test/xpu
+uv pip install otx[xpu]
 ```
 
 </details>
@@ -100,9 +100,9 @@ git clone https://github.com/open-edge-platform/training_extensions.git
 cd training_extensions
 
 # Install in editable mode
-uv pip install -e .
+uv pip install -e .[cuda]
 # For Intel GPUs users
-uv pip install -e . --extra-index-url https://download.pytorch.org/whl/test/xpu
+uv pip install -e .[xpu]
 ```
 
 </details>
@@ -136,9 +136,9 @@ Below is how to train with auto-configuration, which is provided to users with d
 
 ```python
 # Training with Auto-Configuration via Engine
-from otx.engine import Engine
+from otx.backend.native.engine import OTXEngine
 
-engine = Engine(data_root="data/wgisd", task="DETECTION")
+engine = OTXEngine(data_root="data/wgisd", task="DETECTION")
 engine.train()
 ```
 

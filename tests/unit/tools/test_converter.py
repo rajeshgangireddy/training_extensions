@@ -4,13 +4,13 @@
 import pytest
 
 from otx.tools.converter import ConfigConverter
+from otx.types.task import OTXTaskType
 
 
 class TestConfigConverter:
     def test_convert(self):
         config = ConfigConverter.convert("tests/assets/geti-configs/det.json")
 
-        assert config["data"]["mem_cache_size"] == "100MB"
         assert config["data"]["train_subset"]["batch_size"] == 16
         assert config["data"]["val_subset"]["batch_size"] == 8
         assert config["data"]["test_subset"]["batch_size"] == 8
@@ -26,16 +26,19 @@ class TestConfigConverter:
 
     def test_convert_task_overriding(self):
         default_config = ConfigConverter.convert("tests/assets/geti-configs/cls.json")
-        assert default_config["engine"]["task"] == "MULTI_CLASS_CLS"
+        assert default_config["task"] == "MULTI_CLASS_CLS"
 
-        override_config = ConfigConverter.convert("tests/assets/geti-configs/cls.json", task="MULTI_LABEL_CLS")
-        assert override_config["engine"]["task"] == "MULTI_LABEL_CLS"
+        override_config = ConfigConverter.convert(
+            "tests/assets/geti-configs/cls.json",
+            task=OTXTaskType("MULTI_LABEL_CLS"),
+        )
+        assert override_config["task"] == "MULTI_LABEL_CLS"
 
-        override_config = ConfigConverter.convert("tests/assets/geti-configs/cls.json", task="H_LABEL_CLS")
-        assert override_config["engine"]["task"] == "H_LABEL_CLS"
+        override_config = ConfigConverter.convert("tests/assets/geti-configs/cls.json", task=OTXTaskType("H_LABEL_CLS"))
+        assert override_config["task"] == "H_LABEL_CLS"
 
-        with pytest.raises(SystemExit):
-            ConfigConverter.convert("tests/assets/geti-configs/cls.json", task="DETECTION")
+        with pytest.raises(FileNotFoundError):
+            ConfigConverter.convert("tests/assets/geti-configs/cls.json", task=OTXTaskType("DETECTION"))
 
     def test_instantiate(self, tmp_path):
         data_root = "tests/assets/car_tree_bug"
@@ -48,7 +51,6 @@ class TestConfigConverter:
         assert engine.work_dir == tmp_path
 
         assert engine.datamodule.data_root == data_root
-        assert engine.datamodule.mem_cache_size == "100MB"
         assert engine.datamodule.train_subset.batch_size == 16
         assert engine.datamodule.val_subset.batch_size == 8
         assert engine.datamodule.test_subset.batch_size == 8

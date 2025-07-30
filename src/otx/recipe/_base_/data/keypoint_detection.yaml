@@ -1,6 +1,4 @@
 task: KEYPOINT_DETECTION
-mem_cache_size: 1GB
-mem_cache_img_max_size: null
 data_format: coco_person_keypoints
 unannotated_items_ratio: 0.0
 image_color_channel: RGB
@@ -12,7 +10,7 @@ train_subset:
   batch_size: 32
   num_workers: 2
   transforms:
-    - class_path: otx.core.data.transform_libs.torchvision.TopdownAffine
+    - class_path: otx.data.transform_libs.torchvision.TopdownAffine
       init_args:
         input_size: $(input_size)
         is_numpy_to_tvtensor: true
@@ -29,12 +27,12 @@ val_subset:
   batch_size: 32
   num_workers: 2
   transforms:
-    - class_path: otx.core.data.transform_libs.torchvision.Resize
+    - class_path: otx.data.transform_libs.torchvision.Resize
       init_args:
         scale: $(input_size)
         keep_ratio: true
         transform_keypoints: false
-    - class_path: otx.core.data.transform_libs.torchvision.Pad
+    - class_path: otx.data.transform_libs.torchvision.Pad
       init_args:
         size: $(input_size)
         pad_val: 0
@@ -51,12 +49,12 @@ test_subset:
   batch_size: 32
   num_workers: 2
   transforms:
-    - class_path: otx.core.data.transform_libs.torchvision.Resize
+    - class_path: otx.data.transform_libs.torchvision.Resize
       init_args:
         scale: $(input_size)
         keep_ratio: true
         transform_keypoints: false
-    - class_path: otx.core.data.transform_libs.torchvision.Pad
+    - class_path: otx.data.transform_libs.torchvision.Pad
       init_args:
         size: $(input_size)
         pad_val: 0

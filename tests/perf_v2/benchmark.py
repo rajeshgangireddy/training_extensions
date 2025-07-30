@@ -5,7 +5,6 @@
 
 from __future__ import annotations
 
-import gc
 import logging
 import shutil
 from pathlib import Path
@@ -13,10 +12,11 @@ from time import time
 from typing import Any, Literal
 
 import pandas as pd
-from jsonargparse import ArgumentParser, Namespace
 
-from otx.core.types.task import OTXTaskType
-from otx.engine import Engine
+from otx.backend.native.cli.utils import RECIPE_PATH
+from otx.backend.native.engine import OTXEngine
+from otx.backend.openvino.engine import OVEngine
+from otx.types.task import OTXTaskType
 from tests.perf_v2 import CRITERIA_COLLECTIONS, DATASET_COLLECTIONS, MODEL_COLLECTIONS, summary
 from tests.perf_v2.utils import (
     Criterion,
@@ -32,6 +32,21 @@ from tests.perf_v2.utils import (
 )
 
 logger = logging.getLogger(__name__)
+
+FOLDER_MAPPINGS = {
+    OTXTaskType.MULTI_CLASS_CLS: RECIPE_PATH / "classification" / "multi_class_cls",
+    OTXTaskType.MULTI_LABEL_CLS: RECIPE_PATH / "classification" / "multi_label_cls",
+    OTXTaskType.H_LABEL_CLS: RECIPE_PATH / "classification" / "h_label_cls",
+    OTXTaskType.DETECTION: RECIPE_PATH / "detection",
+    OTXTaskType.ROTATED_DETECTION: RECIPE_PATH / "rotated_detection",
+    OTXTaskType.SEMANTIC_SEGMENTATION: RECIPE_PATH / "semantic_segmentation",
+    OTXTaskType.INSTANCE_SEGMENTATION: RECIPE_PATH / "instance_segmentation",
+    OTXTaskType.ANOMALY: RECIPE_PATH / "anomaly",
+    OTXTaskType.ANOMALY_CLASSIFICATION: RECIPE_PATH / "anomaly_classification",
+    OTXTaskType.ANOMALY_SEGMENTATION: RECIPE_PATH / "anomaly_segmentation",
+    OTXTaskType.ANOMALY_DETECTION: RECIPE_PATH / "anomaly_detection",
+    OTXTaskType.KEYPOINT_DETECTION: RECIPE_PATH / "keypoint_detection",
+}
 
 
 def task_benchmark_dataset(task: OTXTaskType) -> dict[str, DatasetInfo]:
@@ -129,21 +144,20 @@ class Benchmark:
             float: Total time for training
         """
 
-        engine, kwargs = self._initialize_engine(
+        engine = self._initialize_engine(
             model_info=model_info,
             dataset_info=dataset_info,
             work_dir=sub_work_dir / SubCommand.TRAIN.value,
-            subcommand=SubCommand.TRAIN,
         )
 
-        extra_kwargs = {}
-        for key, value in dataset_info.extra_overrides.get("train", {}).items():
-            extra_kwargs[key] = value
-        extra_kwargs["seed"] = seed
-        extra_kwargs["deterministic"] = self.deterministic
+        kwargs = {}
+        if extra_overrides := dataset_info.extra_overrides:
+            for key, value in extra_overrides.get("train", {}).items():
+                kwargs[key] = value
+        kwargs["seed"] = seed
+        kwargs["deterministic"] = self.deterministic
         if self.num_epoch > 0:
-            extra_kwargs["max_epochs"] = self.num_epoch
-        kwargs.update(extra_kwargs)
+            kwargs["max_epochs"] = self.num_epoch
 
         # ======Train======
         start_time = time()
@@ -188,17 +202,25 @@ class Benchmark:
         if self.test_only not in ["all", test_type, None]:
             return
 
-        engine, kwargs = self._initialize_engine(
-            model_info=model_info,
-            dataset_info=dataset_info,
-            work_dir=sub_work_dir / SubCommand.TEST.value / test_type,
-            subcommand=SubCommand.TEST,
-        )
+        work_dir = sub_work_dir / SubCommand.TEST.value / test_type
+        if what2test == RunTestType.TORCH:
+            engine = self._initialize_engine(
+                model_info=model_info,
+                dataset_info=dataset_info,
+                work_dir=work_dir,
+            )
+        else:
+            engine = OVEngine(
+                work_dir=work_dir,
+                data=self.data_root / dataset_info.path,
+                model=checkpoint,
+            )
 
-        extra_kwargs = {}
-        for key, value in dataset_info.extra_overrides.get("test", {}).items():
-            extra_kwargs[key] = value
-        kwargs.update(extra_kwargs)
+        kwargs = {}
+        if extra_overrides := dataset_info.extra_overrides:
+            for key, value in extra_overrides.get("test", {}).items():
+                kwargs[key] = value
+        kwargs.update(kwargs)
         kwargs.pop("checkpoint", None)  # Remove checkpoint
 
         # ======Test=======
@@ -236,17 +258,16 @@ class Benchmark:
         dataset_info: DatasetInfo,
         sub_work_dir: Path,
     ) -> None:
-        engine, kwargs = self._initialize_engine(
+        engine = self._initialize_engine(
             model_info=model_info,
             dataset_info=dataset_info,
             work_dir=sub_work_dir / SubCommand.EXPORT.value,
-            subcommand=SubCommand.EXPORT,
         )
 
-        extra_kwargs = {}
-        for key, value in dataset_info.extra_overrides.get("export", {}).items():
-            extra_kwargs[key] = value
-        kwargs.update(extra_kwargs)
+        kwargs = {}
+        if extra_overrides := dataset_info.extra_overrides:
+            for key, value in extra_overrides.get("export", {}).items():
+                kwargs[key] = value
 
         ckpt_path = sub_work_dir / "train" / "best_checkpoint.ckpt"
         if not ckpt_path.exists():
@@ -258,26 +279,25 @@ class Benchmark:
             checkpoint=ckpt_path,
             **kwargs,
         )
+        del engine
 
     def optimize(
         self,
-        model_info: ModelInfo,
         dataset_info: DatasetInfo,
         sub_work_dir: Path,
         exported_model_path: Path,
     ):
-        engine, kwargs = self._initialize_engine(
-            model_info=model_info,
-            dataset_info=dataset_info,
+        engine = OVEngine(
             work_dir=sub_work_dir / SubCommand.OPTIMIZE.value,
-            subcommand=SubCommand.OPTIMIZE,
+            data=self.data_root / dataset_info.path,
+            model=exported_model_path,
         )
 
-        extra_kwargs = {}
-        for key, value in dataset_info.extra_overrides.get("optimize", {}).items():
-            extra_kwargs[key] = value
+        kwargs = {}
+        if extra_overrides := dataset_info.extra_overrides:
+            for key, value in extra_overrides.get("optimize", {}).items():
+                kwargs[key] = value
 
-        kwargs.update(extra_kwargs)
         kwargs.pop("checkpoint", None)  # Remove checkpoint
 
         # ======Optimize=======
@@ -287,6 +307,7 @@ class Benchmark:
             checkpoint=exported_model_path,
             **kwargs,
         )
+        del engine
         total_time = time() - start_time
 
         # OTX does not create metrics.cvs during optimization,
@@ -300,50 +321,24 @@ class Benchmark:
         model_info: ModelInfo,
         dataset_info: DatasetInfo,
         work_dir: Path,
-        subcommand: SubCommand,
-    ) -> tuple[Engine, dict[str, Any]]:
+    ) -> OTXEngine:
         """Initialise engine with given model and dataset settings.
 
         Args:
             model_info (ModelInfo): Target model settings
             dataset_info (DatasetInfo): Target dataset settings
-            sub_work_dir (Path): Sub work directory
+            work_dir (Path): Sub work directory
 
         Returns:
             Engine: Initialised engine
         """
 
-        engine = Engine(
-            model=model_info.name,
-            task=model_info.task,
+        return OTXEngine.from_config(
+            config_path=FOLDER_MAPPINGS[model_info.task] / (model_info.name + ".yaml"),
             data_root=self.data_root / dataset_info.path,
             work_dir=work_dir,
             device=self.accelerator,
         )
-
-        config = engine._auto_configurator.config
-
-        # Instantiate Train Arguments
-        engine_parser = ArgumentParser()
-        arguments = engine_parser.add_method_arguments(
-            Engine,
-            subcommand.value,
-            skip={"accelerator", "devices"},
-            fail_untyped=False,
-        )
-        # Update callbacks & logger dir as engine.work_dir
-        for callback in config["callbacks"]:
-            if "init_args" in callback and "dirpath" in callback["init_args"]:
-                callback["init_args"]["dirpath"] = engine.work_dir
-        for logger in config["logger"]:
-            if "save_dir" in logger["init_args"]:
-                logger["init_args"]["save_dir"] = engine.work_dir
-            if "log_dir" in logger["init_args"]:
-                logger["init_args"]["log_dir"] = engine.work_dir
-        instantiated_kwargs = engine_parser.instantiate_classes(Namespace(**config))
-
-        kwargs = {k: v for k, v in instantiated_kwargs.items() if k in arguments}
-        return engine, kwargs
 
     def run(
         self,
@@ -382,7 +377,7 @@ class Benchmark:
 
             # Check if operation was already done in previous run
             # If so, copy the previous operation directory
-            copied_ops_dir = self._prepare_resume(tags, sub_work_dir)
+            copied_ops_dir = self._prepare_resume(sub_work_dir)
 
             # Run training if not in resume operation
             if "train" not in copied_ops_dir:
@@ -403,6 +398,13 @@ class Benchmark:
                     extra_metrics={
                         "training:e2e_time": e2e_train_time,
                     },
+                )
+
+            if "train" in copied_ops_dir:
+                self._log_metrics(
+                    work_dir=sub_work_dir / SubCommand.TRAIN.value,
+                    tags=tags,
+                    criteria=criteria,
                 )
 
             self.test(
@@ -443,7 +445,6 @@ class Benchmark:
             if self.eval_upto == "optimize":
                 if "optimize" not in copied_ops_dir:
                     self.optimize(
-                        model_info=model_info,
                         dataset_info=dataset_info,
                         sub_work_dir=sub_work_dir,
                         exported_model_path=exported_model_path,
@@ -455,8 +456,6 @@ class Benchmark:
                     )
 
                 optimized_model_path = sub_work_dir / "optimize" / "optimized_model.xml"
-                if not optimized_model_path.exists():
-                    optimized_model_path = sub_work_dir / "optimize" / "optimized_model_decoder.xml"
 
                 self.test(
                     model_info=model_info,
@@ -467,9 +466,6 @@ class Benchmark:
                     checkpoint=optimized_model_path,
                     what2test=RunTestType.OPTIMIZE,
                 )
-
-            # Force memory clean up
-            gc.collect()
         except Exception as e:
             exceptions.append((seed, str(e)))
 
@@ -483,55 +479,10 @@ class Benchmark:
         result = summary.average(result, keys=["task", "model", "data_group", "data"])  # Average out seeds
         return result.set_index(["task", "model", "data_group", "data"])
 
-    def _prepare_resume(self, tags: dict[str, str], work_dir: Path) -> list[str]:
-        copied_ops_dir = []
-        if self.resume_from is None:
-            return copied_ops_dir
-        prev_work_dir = self._find_resume_directory(tags)
-        if prev_work_dir is None:
-            return copied_ops_dir
-
-        latest_dir = work_dir / ".latest"
-
-        if self.test_only is None:
-            copy_until = "train"
-        elif self.test_only == "all":
-            copy_until = "optimize"
-        else:
-            copy_until = self.test_only
-
-        for otx_cmd in ["train", "export", "optimize"]:
-            prev_symlink = prev_work_dir / ".latest" / otx_cmd
-            try:  # check symlink exists
-                prev_symlink.readlink()
-            except FileNotFoundError:
-                break
-            prev_cmd_dir_name = prev_symlink.resolve().name
-            prev_cmd_dir = prev_work_dir / prev_cmd_dir_name
-            if not prev_cmd_dir.exists():
-                break
-
-            if not latest_dir.exists():
-                latest_dir.mkdir(parents=True)
-
-            shutil.copytree(prev_cmd_dir, work_dir / prev_cmd_dir_name, ignore_dangling_symlinks=True)
-            (latest_dir / otx_cmd).symlink_to(Path("..") / (work_dir / prev_cmd_dir_name).relative_to(work_dir))
-
-            copied_ops_dir.append(otx_cmd)
-            if otx_cmd == copy_until:
-                break
-
-        if copy_until != otx_cmd:
-            logger.warning(
-                f"There is no {otx_cmd} directory for {work_dir} in resume directory. "
-                f"{work_dir} starts from {otx_cmd}.",
-            )
-
-        return copied_ops_dir
+    def _prepare_resume(self, work_dir: Path) -> list[str]:
+        return [subcommand for subcommand in ("train", "export", "optimize") if (work_dir / subcommand).exists()]
 
     def _find_resume_directory(self, tags: dict[str, str]) -> Path | None:
-        if self.resume_from is None:
-            return None
         for csv_file in self.resume_from.rglob("benchmark.raw.csv"):
             if csv_file.parent.name == ".latest":
                 continue
@@ -594,7 +545,19 @@ class Benchmark:
         # Write csv w/ tags
         for k, v in tags.items():
             metrics[k] = v
-        metrics.to_csv(work_dir / "benchmark.raw.csv", index=False)
+
+        if (work_dir / "benchmark.raw.csv").exists():
+            # If raw csv already exists, combine with existing metrics
+            existing_metrics = pd.read_csv(work_dir / "benchmark.raw.csv")
+            for col, val in metrics.items():
+                if col not in existing_metrics.columns:
+                    existing_metrics[col] = val
+                    print(f"Adding new column {col} to existing metrics.")
+
+            existing_metrics.to_csv(work_dir / "benchmark.raw.csv", index=False)
+        else:
+            # If raw csv does not exist, create new one
+            metrics.to_csv(work_dir / "benchmark.raw.csv", index=False)
 
     def _rename_raw_data(self, work_dir: Path, replace_map: dict[str, str]) -> None:
         """Rename columns in the metrics.csv files based on the provided replacements.
