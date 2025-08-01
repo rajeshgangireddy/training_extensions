@@ -6,7 +6,7 @@ from otx.types.task import OTXTaskType
 from otx.config.data import SubsetConfig
 from torchvision.transforms.v2 import Resize,Compose,ToDtype,Normalize
 import torch
-
+import pycocotools.mask as mask_utils
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,16 +15,18 @@ PATH_TO_REPO = "/home/rgangire/workspace/code/repos/Geti-Labs/OTX/repo/training_
 data_root = "/home/rgangire/workspace/datasets/Collection/holes_in_ann/topgear-dataset-voc"
 recipe = os.path.join(PATH_TO_REPO, "src/otx/recipe/semantic_segmentation/litehrnet_18.yaml")
 
-data_export_dir = os.path.join(os.path.dirname(data_root),"exported_data")
+data_export_dir_coco = os.path.join(os.path.dirname(data_root),"exported_data","coco")
+data_export_dir_datumaro = os.path.join(os.path.dirname(data_root),"exported_data","datumaro")
 
 dataset = dm.Dataset.import_from(data_root, 'voc')
-dataset.export(data_export_dir, 'coco', save_media=True)
+dataset.export(data_export_dir_coco, 'coco', save_media=True)
+dataset.export(data_export_dir_datumaro, 'datumaro', save_media=True)
 
-dataset_coco = dm.Dataset.import_from(data_export_dir, 'coco')
-# dataset.export(data_export_dir, 'coco', save_media=True)
+dataset_coco = dm.Dataset.import_from(data_export_dir_coco, 'coco')
+dataset_datum = dm.Dataset.import_from(data_export_dir_datumaro, 'datumaro')
 
 
-
+dataset_coco.transform("polygons_to_masks")
 # visualise voc item annotations
 voc_item = dataset[0]
 for ann in voc_item.annotations:
@@ -38,6 +40,18 @@ for ann in voc_item.annotations:
     else:
         print(f"Annotation {ann.type} does not have an image mask.")
 
+
+coco_item = dataset_coco[0]
+for ann in coco_item.annotations:
+    mask = ann.image
+    # show this mask
+    if isinstance(mask, np.ndarray):
+        plt.imshow(mask)
+        plt.title(f"Annotation: {ann.type} - {ann.label}")
+        plt.axis('off')
+        plt.show()
+    else:
+        print(f"Annotation {ann.type} does not have an image mask.")
 
 
 transforms = Compose([Resize(size=(448, 448)),ToDtype(dtype=torch.float32)])
@@ -59,6 +73,11 @@ datamodule = OTXDataModule(task=OTXTaskType.SEMANTIC_SEGMENTATION,
 
 
 
-engine = OTXEngine(model= recipe)
-engine.train()
-results = engine.test()
+
+from otx.backend.native.engine import OTXEngine
+
+engine = OTXEngine(
+    data=data_export_dir_coco,
+    model=recipe,
+    max_epochs=9,
+)
